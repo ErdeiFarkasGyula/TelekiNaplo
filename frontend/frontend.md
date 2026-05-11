@@ -1,0 +1,1 @@
+Töröld ki, ha elkezted a mappát feltölteni!
