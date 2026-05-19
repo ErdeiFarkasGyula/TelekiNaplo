@@ -45,7 +45,21 @@ application.get('/api/felhasznalok', (req, res) => {
   });
 });
 
-
+application.get('/api/felhasznalok/:id', (req, res) => {
+  const id = req.params.id;
+  connection.query('SELECT * FROM felhasznalo WHERE id = ?', [id], (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Hiba a lekérdezés során' });
+      return;
+    }
+    if (results.length === 0) {
+      res.status(404).json({ error: 'Felhasználó nem található' });
+      return;
+    }
+    res.json(results[0]);
+  });
+});
 // Ne zárjuk le azonnal a kapcsolatot — hagyjuk nyitva a szerver élettartamáig.
 // Zárjuk le csak a folyamat leállításakor (graceful shutdown).
 process.on('SIGINT', () => {
